@@ -124,7 +124,7 @@ public:
 
                 for (int i=0; i<4; i++) {
                         adcs[i] = new ad7606((boost::format("/dev/spidev3.%d") % i).str());
-                        dacs[i] = new dac8568((boost::format("/dev/spidev3.%d") % i).str());
+                        dacs[i] = new dac8568((boost::format("/dev/spidev4.%d") % i).str());
                 }
         }
 
