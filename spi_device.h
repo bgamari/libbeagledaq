@@ -31,6 +31,7 @@
 #include <linux/spi/spidev.h>
 #include <vector>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 
