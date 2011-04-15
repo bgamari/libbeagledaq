@@ -39,12 +39,12 @@ private:
         static uint32_t build_command(uint8_t* buf, uint8_t prefix, uint8_t control,
                         uint8_t addr, uint16_t data, uint8_t features)
         {
-                buf[0] = (0xf & features) << 0
+                buf[3] = (0xf & features) << 0
                        | (0xf & data) << 4;
-                buf[1] = (0x0ff0 & data) >> 4;
-                buf[2] = (0xf000 & data) >> 12
+                buf[2] = (0x0ff0 & data) >> 4;
+                buf[1] = (0xf000 & data) >> 12
                        | (0xf & addr) << 4;
-                buf[3] = (0xf & control) << 0
+                buf[0] = (0xf & control) << 0
                        | (0xf & prefix) << 4;
         }
 
