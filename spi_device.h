@@ -24,8 +24,7 @@
 #pragma once
 
 #include <cstdint>
-#include <cstdio>
-#include <cstdlib>
+#include <iostream>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
@@ -47,10 +46,10 @@ public:
 		virtual void unpack(const uint8_t* buf) = 0;
 	};
 
-	spi_device(const char* dev) {
-		fd = open(dev, O_RDWR);
+	spi_device(std::string dev) {
+		fd = open(dev.c_str(), O_RDWR);
 		if (fd < 0) {
-			fprintf(stderr, "can't open device: %s\n", dev);
+                        std::cerr << "can't open device: " << dev << "\n";
 			abort();
 		}
 	}
