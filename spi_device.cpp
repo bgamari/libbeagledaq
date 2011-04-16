@@ -19,6 +19,8 @@
  */
 
 
+#include <string.h>
+#include <errno.h>
 #include "spi_device.h"
 
 // spi mode
@@ -53,14 +55,14 @@ void spi_device::set_max_speed(uint32_t speed)
 
 void spi_device::send_msg(void* tx, void* rx, int len)
 {
-	struct spi_ioc_transfer tr;
-
-	tr.tx_buf = (unsigned long) tx;
-	tr.rx_buf = (unsigned long) rx;
-	tr.len = len;
+	struct spi_ioc_transfer tr = {
+		tx_buf: (unsigned long) tx,
+		rx_buf: (unsigned long) rx,
+		len: len,
+	};
 
 	if (ioctl(fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
-		fprintf(stderr, "failed to send message\n");
+		fprintf(stderr, "failed to send message: %s\n", strerror(errno));
 		exit(1);
 	}
 }
