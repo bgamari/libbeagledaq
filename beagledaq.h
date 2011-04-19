@@ -92,7 +92,7 @@ public:
 
 class ad7606 : spi_device {
 public:
-        ad7606(string dev) : spi_device(dev) { }
+        ad7606(string dev) : spi_device(dev) { set_mode(SPI_CPOL|0); }
 
         array<uint16_t, 8> read() {
                 array<uint16_t, 8> samples;
@@ -100,10 +100,10 @@ public:
                 send_msg(buf, buf, 2*8);
 
                 uint8_t* b = buf;
-                for (int i=0; i<8*2; i++) {
+                for (int i=0; i<8; i++) {
                         samples[i] = 0;
-                        samples[i] |= (*b & 0xf) << 0; b++;
-                        samples[i] |= (*b & 0xf) << 8; b++;
+                        samples[i] |= *b << 8; b++;
+                        samples[i] |= *b << 0; b++;
                 }
 
                 delete [] buf;
