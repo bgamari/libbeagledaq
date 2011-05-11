@@ -5,6 +5,8 @@ all : libbeagledaq.so tools/dac-output
 libbeagledaq.so : beagledaq.o spi_device.o
 	${CXX} -shared ${LDFLAGS} -o $@ $+
 
+tools/dac-output : spi_device.o
+
 clean :
 	rm -f *.o *.so tools/dac-output
 

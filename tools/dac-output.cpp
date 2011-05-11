@@ -23,11 +23,21 @@
 
 int main(int argc, const char** argv)
 {
-        beagle_daq bd;
+        if (argc != 3) {
+                fprintf(stderr, "Usage: %s [dac] [channel]\n", argv[0]);
+                exit(1);
+        }
+        unsigned int dac = atoi(argv[1]);
+        unsigned int chan = atoi(argv[2]);
+        if (dac > 4 || chan > 8) {
+                fprintf(stderr, "Invalid DAC or channel number\n");
+                exit(1);
+        }
 
-        int t = 0;
+        beagle_daq bd;
+        int t = 2;
         while (true) {
-                bd.dacs[0]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE_ALL, 0, 10000*sin(t));
+                bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, 1<<chan, 10000*(1 + sin(1.*t/1e1)));
                 t += 1;
                 usleep(10*1000);
         }
