@@ -19,6 +19,7 @@
  */
 
 #include <unistd.h>
+#include <cmath>
 #include "beagledaq.h"
 
 int main(int argc, const char** argv)
