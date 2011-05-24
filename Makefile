@@ -1,9 +1,12 @@
 CXXFLAGS=-I. -std=c++0x -fPIC
 
-all : libbeagledaq.so tools/dac-output tools/adc-acquire
+all : libbeagledaq.so libbeagledaq.a tools/dac-output tools/adc-acquire
 
 libbeagledaq.so : beagledaq.o spi_device.o
 	${CXX} -shared ${LDFLAGS} -o $@ $+
+
+libbeagledaq.a : beagledaq.o spi_device.o
+	ar rcs $@ $+
 
 tools/dac-output : spi_device.o
 tools/adc-acquire : spi_device.o
