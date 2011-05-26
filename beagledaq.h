@@ -36,7 +36,7 @@ using std::array;
 
 class dac8568 : spi_device {
 private:
-        static uint32_t build_command(uint8_t* buf, uint8_t prefix, uint8_t control,
+        static void build_command(uint8_t* buf, uint8_t prefix, uint8_t control,
                         uint8_t addr, uint16_t data, uint8_t features)
         {
                 buf[3] = (0xf & features) << 0
