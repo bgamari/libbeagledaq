@@ -17,7 +17,7 @@ clean :
 
 install : libbeagledaq.so
 	cp libbeagledaq.so ${DESTDIR}/lib/libbeagledaq.so
-	mkdir ${DESTDIR}/include/beagledaq/
+	mkdir -p ${DESTDIR}/include/beagledaq/
 	cp beagledaq.h ${DESTDIR}/include/beagledaq/beagledaq.h
 	cp spi_device.h ${DESTDIR}/include/beagledaq/spi_device.h
 
