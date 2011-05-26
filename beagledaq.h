@@ -129,8 +129,10 @@ public:
         }
 
         void trigger_acquire() {
-                write(start_acq_fd, "1", 1);
-                write(start_acq_fd, "0", 1);
+                if (write(start_acq_fd, "1", 1) == -1)
+                        std::cerr << "Failed to set acquire trigger: " << strerror(errno) << "\n";
+                if (write(start_acq_fd, "0", 1) == -1)
+                        std::cerr << "Failed to reset acquire trigger: " << strerror(errno) << "\n";
         }
 };
 
