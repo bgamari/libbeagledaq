@@ -55,19 +55,17 @@ public:
 		virtual void pack(uint8_t* buf) { };
 	};
 
-        class write_cmd : public command {
-        public:
+        struct write_cmd : public command {
                 enum write_mode {
                         WRITE = 0x0,
                         UPDATE = 0x1,
                         WRITE_UPDATE_ALL = 0x02,
                         WRITE_UPDATE = 0x3,
                 };
-        private:
                 write_mode mode;
                 uint8_t addr;
                 uint16_t data;
-
+        private:
                 unsigned int length() { return 4; }
                 void pack(uint8_t* buf) {
                         build_command(buf, 0, mode, addr, data, 0);
