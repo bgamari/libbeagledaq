@@ -1,4 +1,5 @@
-CXXFLAGS=-I. -std=c++0x -fPIC
+DESTDIR ?= /usr/local
+CXXFLAGS = -I. -std=c++0x -fPIC
 
 all : libbeagledaq.so libbeagledaq.a tools/dac-output tools/adc-acquire
 
@@ -13,6 +14,10 @@ tools/adc-acquire : spi_device.o
 
 clean :
 	rm -f *.o *.so tools/dac-output
+
+install : libbeagledaq.so
+	cp libbeagledaq.so ${DESTDIR}/lib/libbeagledaq.so
+	cp beagledaq.h ${DESTDIR}/include/beagledaq.h
 
 # For automatic header dependencies
 .deps/%.d : %
