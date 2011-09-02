@@ -38,9 +38,9 @@ int main(int argc, const char** argv)
         beagle_daq bd;
         int t = 2;
         while (true) {
-                bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, 1<<chan, 10000*(1 + sin(1.*t/1e1)));
+                bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, 1<<chan, 0x7fff*(1 + sin(t/1e2)));
                 t += 1;
-                usleep(10*1000);
+                usleep(1*1000);
         }
 }
 

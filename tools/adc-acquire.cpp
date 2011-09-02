@@ -36,7 +36,7 @@ int main(int argc, const char** argv)
         beagle_daq bd;
         while (true) {
                 bd.trigger_acquire();
-                array<uint16_t,8> data = bd.adcs[adc]->read();
+                array<int16_t,8> data = bd.adcs[adc]->read();
                 for (int i=0; i<8; i++)
                         printf("%6u\t", data[i]);
                 printf("\n");

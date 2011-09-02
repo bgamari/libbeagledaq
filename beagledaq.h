@@ -92,8 +92,8 @@ class ad7606 : spi_device {
 public:
         ad7606(string dev) : spi_device(dev) { set_mode(SPI_CPOL|0); }
 
-        array<uint16_t, 8> read() {
-                array<uint16_t, 8> samples;
+        array<int16_t, 8> read() {
+                array<int16_t, 8> samples;
                 uint8_t* buf = new uint8_t[2*8];
                 send_msg(buf, buf, 2*8);
 
