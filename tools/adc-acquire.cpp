@@ -38,7 +38,7 @@ int main(int argc, const char** argv)
                 bd.trigger_acquire();
                 array<int16_t,8> data = bd.adcs[adc]->read();
                 for (int i=0; i<8; i++)
-                        printf("%6u\t", data[i]);
+                        printf("%6d\t", data[i]);
                 printf("\n");
                 usleep(10*1000);
         }
