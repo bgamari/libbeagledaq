@@ -118,7 +118,7 @@ public:
         beagle_daq() {
                 start_acq_fd = open("/sys/class/gpio/gpio145/value", O_WRONLY);
                 if (start_acq_fd < 0)
-                        throw new std::runtime_error("Error opening start acquire gpio pin");
+                        throw std::runtime_error("Error opening start acquire gpio pin");
 
                 for (int i=0; i<4; i++) {
                         adcs[i] = new ad7606((boost::format("/dev/spidev3.%d") % i).str());
