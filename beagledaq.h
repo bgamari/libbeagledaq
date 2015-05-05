@@ -34,6 +34,20 @@
 using std::string;
 using std::array;
 
+// DAC channel numbers are those printed on the board but zero-based
+// instead of one-based
+uint8_t dac_channels[8] = {
+        // indexed by label number, mapping to DAC channel number
+        0,
+        2,
+        4,
+        6,
+        7,
+        5,
+        3,
+        1,
+};
+
 class dac8568 : spi_device {
 private:
         static void build_command(uint8_t* buf, uint8_t prefix, uint8_t control,
@@ -72,17 +86,17 @@ public:
                 }
                 void unpack(const uint8_t* buf) { }
         public:
-                write_cmd(write_mode mode, uint8_t addr, uint16_t data) :
-                        mode(mode), addr(addr), data(data) { }
+                write_cmd(write_mode mode, uint8_t channel, uint16_t data) :
+                        mode(mode), addr(dac_channels[channel]), data(data) { }
         };
 
 	void submit(std::vector<command*>& cmds) {
 		spi_device::submit(cmds);
 	}
 
-        void write(write_cmd::write_mode mode, uint8_t addr, uint16_t data)
+        void write(write_cmd::write_mode mode, uint8_t channel, uint16_t data)
         {
-                write_cmd cmd(mode, addr, data);
+                write_cmd cmd(mode, channel, data);
                 std::vector<command*> cmds = {&cmd};
                 submit(cmds);
         }
