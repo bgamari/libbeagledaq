@@ -24,8 +24,8 @@
 
 int main(int argc, const char** argv)
 {
-        if (argc != 3) {
-                fprintf(stderr, "Usage: %s [dac] [channel]\n", argv[0]);
+        if (argc < 3) {
+                fprintf(stderr, "Usage: %s [dac] [channel] [amp] [freq]\n", argv[0]);
                 exit(1);
         }
         unsigned int dac = atoi(argv[1]);
@@ -34,11 +34,18 @@ int main(int argc, const char** argv)
                 fprintf(stderr, "Invalid DAC or channel number\n");
                 exit(1);
         }
+        unsigned int amp = 0x7fff;
+        if (argc > 3)
+                amp = atoi(argv[3]);
+
+        float freq = 1; // Hz
+        if (argc > 4)
+                freq = atof(argv[4]);
 
         beagle_daq bd;
-        int t = 2;
+        int t = 0;
         while (true) {
-                bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, 1<<chan, 0x7fff*(1 + sin(t/1e2)));
+                bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, chan, amp*(1 + sin(2*M_PI * t * 1e-3 * freq)));
                 t += 1;
                 usleep(1*1000);
         }
