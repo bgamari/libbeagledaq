@@ -1,5 +1,5 @@
 DESTDIR ?= /usr/local
-CXXFLAGS = -I. -std=c++0x -fPIC ${EXTRA_CXXFLAGS}
+CXXFLAGS = -I. -std=c++0x -fPIC
 
 all : libbeagledaq.so libbeagledaq.a tools/dac-output tools/adc-acquire tools/benchmark
 
@@ -11,8 +11,8 @@ libbeagledaq.a : beagledaq.o spi_device.o
 
 tools/dac-output : spi_device.o
 tools/adc-acquire : spi_device.o
-tools/benchmark : EXTRA_CXXFLAGS=-lrt
-tools/benchmark : spi_device.o
+tools/benchmark : tools/benchmark.o spi_device.o
+	${CXX} -o $@ $+ -lrt
 
 clean :
 	rm -f *.o *.so tools/dac-output

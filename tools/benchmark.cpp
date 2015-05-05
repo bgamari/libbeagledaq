@@ -18,6 +18,7 @@
  * Author: Ben Gamari <bgamari@physics.umass.edu>
  */
 
+#include <sched.h>
 #include <time.h>
 #include <unistd.h>
 #include "beagledaq.h"
@@ -26,26 +27,32 @@ int main(int argc, const char** argv)
 {
         unsigned int adc = 2, dac = 2;
         timespec ts1, ts2;
-        float rate;
+        float time;
         beagle_daq bd;
 
+        sched_setscheduler(0, SCHED_FIFO, NULL);
+
         // ADC test
+        printf("ADC reads:\t");
         clock_gettime(CLOCK_MONOTONIC, &ts1);
-        for (int i=0; i<1000000; i++) {
+        int n_adc = 100000;
+        for (int i=0; i<n_adc; i++) {
                 bd.trigger_acquire();
                 bd.adcs[adc]->read();
         }
         clock_gettime(CLOCK_MONOTONIC, &ts2);
-        rate = (ts2.tv_sec - ts1.tv_sec) + (ts2.tv_nsec - ts1.tv_nsec)*1e-9;
-        printf("ADC reads: %f / sec\n", rate);
+        time = (ts2.tv_sec - ts1.tv_sec) + (ts2.tv_nsec - ts1.tv_nsec)*1e-9;
+        printf("%f / sec\n", n_adc/time);
 
         // DAC test
+        printf("DAC writes:\t");
         clock_gettime(CLOCK_MONOTONIC, &ts1);
-        for (int i=0; i<1000000; i++) {
+        int n_dac = 100000;
+        for (int i=0; i<n_dac; i++) {
                 bd.dacs[dac]->write(dac8568::write_cmd::write_mode::WRITE_UPDATE, 1, 0x7fff);
         }
         clock_gettime(CLOCK_MONOTONIC, &ts2);
-        rate = (ts2.tv_sec - ts1.tv_sec) + (ts2.tv_nsec - ts1.tv_nsec)*1e-9;
-        printf("DAC writes: %f / sec\n", rate);
+        time = (ts2.tv_sec - ts1.tv_sec) + (ts2.tv_nsec - ts1.tv_nsec)*1e-9;
+        printf("%f / sec\n", n_dac/time);
 }
 
