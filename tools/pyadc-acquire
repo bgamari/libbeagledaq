@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+# Reads in ADC0 on beagle-daq
+
+import beagledaq
+from time import sleep
+
+bd = beagledaq.beagle_daq()
+
+while True:
+    print bd.adc0.read()
+    sleep(1e-2)
