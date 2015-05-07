@@ -1,0 +1,25 @@
+#!/usr/bin/env python 
+
+import beagledaq
+import timeit
+
+bd = beagledaq.beagle_daq()
+N = 1000000
+
+def read():
+    """ Read adc0 N times """
+    for i in xrange(N):
+        bd.adc0.read()
+
+def write():
+    """ Write 1's to channel 0 100,000 times """
+    for i in xrange(N):
+        bd.write(0, 1)
+
+read_time = timeit.timeit("read()", setup="from __main__ import read",
+                          number=1)
+write_time = timeit.timeit("write()", setup="from __main__ import write",
+                           number=1)
+
+print "ADC Read: %d samples/sec" % int(N/read_time)
+print "DAC Write: %d samples/sec" % int(N/write_time)
