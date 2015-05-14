@@ -65,9 +65,9 @@ private:
 public:
         dac8568(string dev): spi_device(dev) { }
 
-	class command : public spi_device::command {
-		virtual void pack(uint8_t* buf) { };
-	};
+        class command : public spi_device::command {
+          virtual void pack(uint8_t* buf) { };
+        };
 
         struct write_cmd : public command {
                 enum write_mode {
@@ -90,9 +90,9 @@ public:
                         mode(mode), addr(dac_channels[channel]), data(data) { }
         };
 
-	void submit(std::vector<command*>& cmds) {
-		spi_device::submit(cmds);
-	}
+        void submit(std::vector<command*>& cmds) {
+          spi_device::submit(cmds);
+        }
 
         void write(write_cmd::write_mode mode, uint8_t channel, uint16_t data)
         {
@@ -119,7 +119,7 @@ public:
                 }
 
                 delete [] buf;
-                return samples;       
+                return samples;
         }
 };
 
